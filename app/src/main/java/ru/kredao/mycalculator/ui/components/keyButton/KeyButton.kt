@@ -1,4 +1,4 @@
-package ru.kredao.mycalculator.ui.components.KeyButton
+package ru.kredao.mycalculator.ui.components.keyButton
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -23,11 +22,13 @@ fun KeyButton(
     text: String = "",
     clear: Boolean = false,
     long: Boolean = false,
-    calcVM: CalcViewModel = viewModel()
+    myViewModel: CalcViewModel = viewModel()
 ) {
     Button(
-        onClick = { calcVM.start() },
-        modifier = Modifier.padding(4.dp),
+        onClick = {
+            myViewModel.addSymbol(text)
+        },
+        modifier = Modifier.padding(6.dp),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
@@ -36,13 +37,14 @@ fun KeyButton(
             defaultElevation = 4.dp
         ),
         contentPadding = PaddingValues(16.dp)
-
     ) {
         if (clear) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_clear),
                 contentDescription = "clear",
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(if (long) 134.dp else 47.dp, 47.dp)
             )
         } else {
             Text(
@@ -51,7 +53,6 @@ fun KeyButton(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(if (long) 134.dp else 47.dp, 47.dp)
-                    .align(Alignment.CenterVertically)
             )
         }
     }

@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import ru.kredao.mycalculator.ui.components.KeyButton.KeyButton
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.kredao.mycalculator.CalcViewModel
+import ru.kredao.mycalculator.ui.components.keyButton.KeyButton
 
 @Composable
-fun MainScreen() {
+fun MainScreen(myViewModel: CalcViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,19 +37,21 @@ fun MainScreen() {
                 )
                 .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                .padding(horizontal = 16.dp, vertical = 48.dp)
+                .padding(horizontal = 16.dp, vertical = 64.dp)
         ) {
             Text(
-                text = "1+1",
+                text = myViewModel.text.value,
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                softWrap = false
             )
             Text(
-                text = "2",
+                text = myViewModel.result.value,
                 style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                softWrap = false
             )
         }
         Column(
@@ -58,37 +62,31 @@ fun MainScreen() {
         ) {
             Row {
                 KeyButton("All Clear", long = true)
-                KeyButton("( )", long = true)
-            }
-            Row {
-                KeyButton("^")
-                KeyButton("√")
-                KeyButton("%")
                 KeyButton("/")
+                KeyButton("*")
             }
             Row {
                 KeyButton("7")
                 KeyButton("8")
                 KeyButton("9")
-                KeyButton("*")
+                KeyButton("-")
             }
             Row {
                 KeyButton("4")
                 KeyButton("5")
                 KeyButton("6")
-                KeyButton("--")
+                KeyButton("+")
             }
             Row {
                 KeyButton("1")
                 KeyButton("2")
                 KeyButton("3")
-                KeyButton("+")
+                KeyButton("=")
             }
             Row {
                 KeyButton("0")
                 KeyButton(".")
-                KeyButton("",true)
-                KeyButton("=")
+                KeyButton("delete", clear = true, long = true)
             }
         }
     }
